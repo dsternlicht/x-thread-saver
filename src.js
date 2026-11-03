@@ -141,13 +141,17 @@
 
   function clickShowButtons() {
     let n = 0;
+
+    const pattern = /^(Show replies|Show more replies|Show probable spam|Show additional replies.*|Show|显示回复|显示更多回复|查看更多回复|显示其他回复|显示可能包含垃圾信息的回复|显示更多回应)$/i;
+
     for (const b of col().querySelectorAll('[role="button"], button')) {
       if (b.__xts) continue;
-      const t = (b.innerText || '').trim();
-      if (/^(Show replies|Show more replies|Show probable spam|Show additional replies.*|Show)$/i.test(t)) {
+      const t = (b.innerText || b.textContent || '').trim();
+      if (pattern.test(t)) {
         b.__xts = 1;
         b.click();
         n++;
+        console.log('[X Thread Saver] Expanded:', t);
       }
     }
     return n;
